@@ -1,253 +1,224 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Chúc mừng Nhung 20/10</title>
-  <style>
-    :root{
-      --flower-zone-height: 55vh; /* vùng hoa bắt đầu từ bottom (chiều cao tính từ đáy) */
-    }
-    * { box-sizing: border-box; }
-    html,body{
-      height:100%;
-      margin:0;
-      background: radial-gradient(circle at center, #000, #050505 75%);
-      font-family: "Poppins", system-ui, sans-serif;
-      overflow:hidden;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Chúc mừng Nhung 20/10</title>
+<style>
+  :root {
+    --flower-zone: 55vh; /* vùng hoa từ đáy lên */
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:#000;overflow:hidden;font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto;}
 
-    /* chữ ở trên cùng, luôn hiển thị rõ */
-    .message {
-      position: absolute;
-      top: 6%;                /* vị trí chữ - ở trên cùng */
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2000;          /* chắc chắn nằm trên hoa */
-      color: #ff86c1;
-      font-size: clamp(20px, 3.4vw, 36px);
-      text-align: center;
-      text-shadow: 0 6px 30px rgba(255,102,178,0.18), 0 0 8px rgba(255,86,152,0.08);
-      pointer-events: none;   /* chữ không bị chặn */
-      padding: 6px 14px;
-      border-radius: 10px;
-      backdrop-filter: blur(4px) saturate(1.1);
-      -webkit-backdrop-filter: blur(4px) saturate(1.1);
-    }
+  /* CHỮ - LUÔN TRÊN CÙNG */
+  .message{
+    position:fixed;
+    top:4%;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:9999;               /* RẤT CAO để luôn trên cùng */
+    color:#ff86c1;
+    font-size:clamp(18px,3.2vw,34px);
+    text-align:center;
+    text-shadow:0 6px 30px rgba(255,102,178,0.18),0 0 8px rgba(255,86,152,0.08);
+    background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding:8px 14px;
+    border-radius:8px;
+    pointer-events:none;
+    backdrop-filter: blur(4px) saturate(1.05);
+    -webkit-backdrop-filter: blur(4px) saturate(1.05);
+  }
 
-    /* vùng chứa hoa: toàn bộ body nhưng hoa chỉ xuất hiện trong phần dưới */
-    .flowers-area {
-      position:absolute;
-      left:0; right:0;
-      bottom:0;
-      height: var(--flower-zone-height); /* cao của vùng hoa từ đáy */
-      pointer-events: none;  /* hoa không chặn click */
-      z-index: 50;
-    }
+  /* vùng hoa (chỉ chiếm phần dưới màn hình) */
+  .flowers-area{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    height:var(--flower-zone);
+    z-index:50;                 /* thấp hơn .message */
+    pointer-events:none;
+    overflow:visible;
+  }
 
-    /* mỗi cây (container) */
-    .flower {
-      position: absolute;
-      bottom: 0;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      width: 0; /* width không quan trọng, chúng ta dùng left */
-      pointer-events: none;
-    }
+  /* từng cây */
+  .flower{
+    position:absolute;
+    bottom:0;
+    transform:translateX(-50%);
+    width:1px; /* không chiếm không gian */
+    pointer-events:none;
+  }
 
-    /* thân */
-    .stem {
-      width: 5px;
-      height: 0;
-      background: linear-gradient(to top, #083c09, #1fb42b);
-      border-radius: 3px;
-      transform-origin: bottom center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
-      z-index: 60;
-    }
+  /* thân */
+  .stem{
+    width:5px;
+    height:0;
+    background: linear-gradient(to top,#07360a,#1fb42b);
+    border-radius:3px;
+    transform-origin:bottom center;
+    box-shadow:0 2px 10px rgba(0,0,0,0.6);
+    z-index:60;
+  }
 
-    /* animation thân mọc */
-    @keyframes stemGrow {
-      0% { height: 0; }
-      80% { height: var(--stem-final); } /* set inline */
-      100% { height: calc(var(--stem-final)); }
-    }
+  /* animation thân: dùng biến --stem-final được set inline */
+  @keyframes stemGrow {
+    0% { height: 0px; }
+    80% { height: calc(var(--stem-final) * 1); }
+    100% { height: calc(var(--stem-final) * 1); }
+  }
 
-    /* lá */
-    .leaf {
-      position: absolute;
-      width: 28px;
-      height: 14px;
-      background: linear-gradient(180deg,#26b94e,#0d7b1f);
-      border-radius: 50%;
-      opacity: 0;
-      transform-origin: center;
-      z-index: 55;
-    }
+  /* lá */
+  .leaf{
+    position:absolute;
+    width:30px;
+    height:14px;
+    background: linear-gradient(180deg,#28c24c,#0d7b1f);
+    border-radius:50%;
+    opacity:0;
+    z-index:58;
+    transform-origin:center;
+  }
+  .leaf.left{ left: -22px; transform: rotate(-42deg); }
+  .leaf.right{ right: -22px; transform: rotate(42deg); }
 
-    .leaf.left { transform: rotate(-40deg); left: -20px; }
-    .leaf.right { transform: rotate(40deg); right: -20px; }
+  @keyframes leafGrow {
+    0% { opacity:0; transform:scale(0.6) rotate(var(--rot)); }
+    100% { opacity:1; transform:scale(1) rotate(var(--rot)); }
+  }
 
-    @keyframes leafGrow {
-      0% { opacity: 0; transform: scale(0.6) rotate(var(--rot)); }
-      100% { opacity: 1; transform: scale(1) rotate(var(--rot)); }
-    }
+  /* phần đầu hoa */
+  .flower-top{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%) scale(0.8);
+    width:64px;
+    height:64px;
+    z-index:70;
+    pointer-events:none;
+    filter: drop-shadow(0 10px 24px rgba(255,77,166,0.12));
+  }
 
-    /* phần đầu hoa (nở) */
-    .flower-top {
-      position: absolute;
-      bottom: calc(var(--stem-final) + 6px); /* nằm trên đỉnh thân */
-      left: 50%;
-      transform: translateX(-50%) scale(0.6);
-      width: 64px;
-      height: 64px;
-      pointer-events: none;
-      z-index: 70;
-      filter: drop-shadow(0 8px 24px rgba(255,77,166,0.12));
-    }
+  .petal{
+    position:absolute;
+    width:24px;
+    height:40px;
+    background: radial-gradient(circle at 30% 30%, #ff85b2, #c9005f 70%);
+    border-radius:50% 50% 40% 40%;
+    left:50%;
+    top:50%;
+    transform-origin:center bottom;
+    opacity:0;
+  }
+  .petal.p1{ transform: rotate(0deg) translate(-50%,-20px); }
+  .petal.p2{ transform: rotate(72deg) translate(-50%,-20px); }
+  .petal.p3{ transform: rotate(144deg) translate(-50%,-20px); }
+  .petal.p4{ transform: rotate(216deg) translate(-50%,-20px); }
+  .petal.p5{ transform: rotate(288deg) translate(-50%,-20px); }
 
-    .petal {
-      position: absolute;
-      width: 22px;
-      height: 40px;
-      background: radial-gradient(circle at 30% 30%, #ff85b2, #c9005f 70%);
-      border-radius: 50% 50% 40% 40%;
-      left: 50%;
-      top: 50%;
-      transform-origin: center bottom;
-      opacity: 0;
-    }
+  @keyframes petalBloom {
+    0% { opacity:0; transform: translateY(8px) scale(0.6) rotate(var(--rot)); }
+    70% { opacity:1; transform: translateY(-6px) scale(1.05) rotate(var(--rot)); }
+    100% { opacity:1; transform: translateY(-12px) scale(1) rotate(var(--rot)); }
+  }
 
-    /* cánh đặt theo góc */
-    .petal.p1 { transform: rotate(0deg) translate(-50%, -20px);  animation-delay: 0s; }
-    .petal.p2 { transform: rotate(72deg) translate(-50%, -20px); animation-delay: 0.12s;}
-    .petal.p3 { transform: rotate(144deg) translate(-50%, -20px); animation-delay: 0.24s;}
-    .petal.p4 { transform: rotate(216deg) translate(-50%, -20px); animation-delay: 0.36s;}
-    .petal.p5 { transform: rotate(288deg) translate(-50%, -20px); animation-delay: 0.48s;}
+  .center{
+    position:absolute;
+    width:18px;height:18px;
+    left:50%; top:50%;
+    transform:translate(-50%,-50%);
+    background: radial-gradient(circle at 30% 30%, #fff88a,#f7a800 80%);
+    border-radius:50%;
+    opacity:0;
+    z-index:75;
+    box-shadow:0 0 16px rgba(247,168,0,0.12);
+  }
+  @keyframes centerShow { to { opacity:1; } }
 
-    @keyframes petalBloom {
-      0% { opacity: 0; transform: translateY(10px) scale(0.6) rotate(var(--rot)); }
-      70% { opacity: 1; transform: translateY(-8px) scale(1.05) rotate(var(--rot)); }
-      100% { opacity: 1; transform: translateY(-12px) scale(1) rotate(var(--rot)); }
-    }
-
-    .center {
-      position: absolute;
-      width: 18px;
-      height: 18px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%,-50%);
-      background: radial-gradient(circle at 30% 30%, #fff88a, #f7a800 80%);
-      border-radius: 50%;
-      opacity: 0;
-      box-shadow: 0 0 18px rgba(255,186,0,0.2);
-      z-index: 80;
-      animation: centerShow 0.6s 0.6s forwards;
-    }
-    @keyframes centerShow { to { opacity: 1; } }
-
-    /* điều chỉnh khi cửa sổ thay đổi */
-    @media (max-width:600px){
-      .flower-top { width:50px; height:50px; }
-      .petal { width:18px; height:34px; }
-      .message { font-size:18px; top:7%; }
-    }
-
-  </style>
+  /* responsive */
+  @media (max-width:600px){
+    .flower-top{ width:48px;height:48px; }
+    .petal{ width:18px;height:34px; }
+    .message{ font-size:18px; top:6%; }
+  }
+</style>
 </head>
 <body>
-  <!-- chữ luôn nằm trên -->
   <div class="message">💐 Chúc mừng Nhung 20/10 vui vẻ 💐</div>
 
-  <!-- vùng hoa: hoa chỉ xuất hiện trong vùng này (từ đáy lên) -->
   <div class="flowers-area" id="flowersArea"></div>
 
-  <script>
-    /* Tạo nhiều cây hoa nhưng giới hạn chiều cao sao cho không chạm vùng chữ */
-    const area = document.getElementById('flowersArea');
-    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-    const zoneHeight = Math.max(window.innerHeight * 0.55, 360); // match CSS var
+<script>
+  const area = document.getElementById('flowersArea');
+  const COUNT = 9; // số cây
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  // chia đều vị trí để tránh chồng chéo
+  for(let i=0;i<COUNT;i++){
+    const pct = (i+1) / (COUNT+1) * 100; // 10%,20%... đảm bảo rải đều
+    createFlowerAtPercent(pct, i*0.4 + Math.random()*0.8);
+  }
 
-    // số cây (tùy chỉnh)
-    const COUNT = 9;
+  function createFlowerAtPercent(percentLeft, delay) {
+    // chiều cao thân (giữ dưới giới hạn vùng hoa)
+    const minStem = 90, maxStem = Math.min(220, Math.round(window.innerHeight * 0.45));
+    const stemFinal = Math.round(minStem + Math.random()*(maxStem - minStem));
 
-    for(let i=0;i<COUNT;i++){
-      createFlower(i);
+    const wrapper = document.createElement('div');
+    wrapper.className = 'flower';
+    wrapper.style.left = percentLeft + '%';
+    wrapper.style.setProperty('--stem-final', stemFinal + 'px');
+
+    // thân
+    const stem = document.createElement('div');
+    stem.className = 'stem';
+    // gán animation với delay cụ thể
+    stem.style.animation = `stemGrow 2.6s ease-out ${delay}s forwards`;
+    wrapper.appendChild(stem);
+
+    // lá trái
+    const leafL = document.createElement('div');
+    leafL.className = 'leaf left';
+    leafL.style.top = (stemFinal*0.42) + 'px';
+    leafL.style.setProperty('--rot','rotate(-42deg)');
+    leafL.style.animation = `leafGrow 0.9s ease-out ${delay + 1.2}s forwards`;
+    wrapper.appendChild(leafL);
+
+    // lá phải
+    const leafR = document.createElement('div');
+    leafR.className = 'leaf right';
+    leafR.style.top = (stemFinal*0.62) + 'px';
+    leafR.style.setProperty('--rot','rotate(42deg)');
+    leafR.style.animation = `leafGrow 0.9s ease-out ${delay + 1.6}s forwards`;
+    wrapper.appendChild(leafR);
+
+    // phần trên (hoa)
+    const top = document.createElement('div');
+    top.className = 'flower-top';
+    top.style.bottom = (stemFinal + 6) + 'px';
+
+    // tạo cánh
+    for(let p=1;p<=5;p++){
+      const petal = document.createElement('div');
+      petal.className = 'petal p' + p;
+      const rot = (p-1)*72 + 'deg';
+      petal.style.setProperty('--rot', rot);
+      // mỗi cánh delay rải để có cảm giác nở từng lớp
+      const petalDelay = delay + 1.8 + p*0.12;
+      petal.style.animation = `petalBloom 0.9s ease-out ${petalDelay}s forwards`;
+      top.appendChild(petal);
     }
 
-    function createFlower(index){
-      // giữ lề để hoa không quá sát mép
-      const margin = 6;
-      const left = Math.round(margin + Math.random() * (vw - margin*2));
-      const delay = (Math.random()*2.2); // delay trước khi thân bắt đầu
-      const stemFinal = Math.round(80 + Math.random()*110); // chiều cao thân (px), đảm bảo < zoneHeight
+    // tâm
+    const center = document.createElement('div');
+    center.className = 'center';
+    center.style.animation = `centerShow 0.6s ${delay + 2.6}s forwards`;
+    top.appendChild(center);
 
-      const wrapper = document.createElement('div');
-      wrapper.className = 'flower';
-      wrapper.style.left = left + 'px';
-      wrapper.style.setProperty('--stem-final', stemFinal + 'px');
-      wrapper.style.animationDelay = delay + 's';
+    wrapper.appendChild(top);
+    area.appendChild(wrapper);
+  }
 
-      // thân
-      const stem = document.createElement('div');
-      stem.className = 'stem';
-      // chạy animation sau delay
-      stem.style.animation = `stemGrow 2.6s ease-out ${delay}s forwards`;
-      stem.style.height = '0px'; // bắt đầu 0, animation tăng lên
-
-      // lá trái
-      const leafL = document.createElement('div');
-      leafL.className = 'leaf left';
-      leafL.style.top = (stemFinal*0.45) + 'px';
-      leafL.style.animation = `leafGrow 0.9s ease-out ${delay + 1.2}s forwards`;
-      leafL.style.setProperty('--rot','rotate(-40deg)');
-
-      // lá phải
-      const leafR = document.createElement('div');
-      leafR.className = 'leaf right';
-      leafR.style.top = (stemFinal*0.65) + 'px';
-      leafR.style.animation = `leafGrow 0.9s ease-out ${delay + 1.6}s forwards`;
-      leafR.style.setProperty('--rot','rotate(40deg)');
-
-      // đầu hoa (nở) - đặt trên đỉnh thân
-      const top = document.createElement('div');
-      top.className = 'flower-top';
-      top.style.bottom = (stemFinal + 6) + 'px';
-
-      // tạo 5 cánh
-      for(let p=1;p<=5;p++){
-        const petal = document.createElement('div');
-        petal.className = 'petal p' + p;
-        // góc xoay cho animation (dùng để giữ trực quan)
-        const rot = (p-1)*72 + 'deg';
-        petal.style.setProperty('--rot', rot);
-        // thêm animation bloom với delay rải đều
-        const petalDelay = delay + 1.8 + p*0.12;
-        petal.style.animation = `petalBloom 0.9s ease-out ${petalDelay}s forwards`;
-        top.appendChild(petal);
-      }
-
-      // tim giữa
-      const center = document.createElement('div');
-      center.className = 'center';
-      center.style.animationDelay = (delay + 2.6) + 's';
-
-      // lắp ráp
-      wrapper.appendChild(stem);
-      wrapper.appendChild(leafL);
-      wrapper.appendChild(leafR);
-      wrapper.appendChild(top);
-      top.appendChild(center);
-
-      area.appendChild(wrapper);
-    }
-
-    // xử lý khi resize để tạo trải nghiệm tốt hơn (nếu cần reload layout)
-    window.addEventListener('resize', () => {
-      // không recreate để tránh phức tạp; nếu muốn, có thể reload trang
-    });
-  </script>
+  // nếu resize to nhỏ/hẹp, không recreate để tránh flicker
+  window.addEventListener('resize', () => { /* giữ nguyên */ });
+</script>
 </body>
 </html>
