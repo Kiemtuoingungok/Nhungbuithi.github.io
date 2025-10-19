@@ -3,164 +3,169 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>20/10 - Tặng Bùi Thị Cẩm Nhung 🌸</title>
+  <title>Chúc mừng Nhung 20/10</title>
   <style>
     body {
       margin: 0;
       height: 100vh;
       overflow: hidden;
-      background: linear-gradient(to top, #d4f1f4, #fff);
+      background: radial-gradient(circle at center, #000, #020202 70%);
       display: flex;
       justify-content: center;
-      align-items: flex-end;
-      font-family: "Poppins", sans-serif;
-    }
-
-    .ground {
+      align-items: center;
+      flex-direction: column;
       position: relative;
-      width: 100%;
-      height: 40vh;
-      background: linear-gradient(to top, #5bb75b, #9be47c);
-      overflow: hidden;
-    }
-
-    .stem {
-      position: absolute;
-      bottom: 0;
-      width: 4px;
-      height: 0;
-      background: #2b7a0b;
-      left: 50%;
-      animation: grow 3s ease-out forwards;
-    }
-
-    @keyframes grow {
-      to { height: 200px; }
-    }
-
-    .leaf {
-      position: absolute;
-      width: 30px;
-      height: 15px;
-      background: #3cb043;
-      border-radius: 50%;
-      opacity: 0;
-      transform: scale(0);
-      animation: leafGrow 2s ease-out forwards;
-    }
-
-    @keyframes leafGrow {
-      to {
-        opacity: 1;
-        transform: scale(1) rotate(15deg);
-      }
-    }
-
-    .leaf.left {
-      left: calc(50% - 35px);
-      bottom: 100px;
-      transform-origin: right center;
-      animation-delay: 2.5s;
-    }
-
-    .leaf.right {
-      left: 50%;
-      bottom: 130px;
-      transform-origin: left center;
-      animation-delay: 2.7s;
+      font-family: "Poppins", sans-serif;
     }
 
     .flower {
       position: absolute;
-      left: 50%;
-      bottom: 200px;
-      transform: translateX(-50%) scale(0);
-      animation: bloom 2s ease-out forwards;
-      animation-delay: 3s;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: growStem 3s ease-out forwards;
     }
 
-    @keyframes bloom {
-      to {
-        transform: translateX(-50%) scale(1);
-      }
+    .stem {
+      width: 4px;
+      height: 0;
+      background: linear-gradient(to top, #0a3d0a, #1faa1f);
+      border-radius: 2px;
+      animation: stemGrow 3s ease-out forwards;
+    }
+
+    @keyframes stemGrow {
+      to { height: 150px; }
+    }
+
+    .leaf {
+      position: absolute;
+      width: 20px;
+      height: 10px;
+      background: #2db92d;
+      border-radius: 50%;
+      opacity: 0;
+      transform-origin: center;
+      animation: leafGrow 1.5s ease-out forwards;
+    }
+
+    .leaf.left {
+      left: -18px;
+      top: 60px;
+      transform: rotate(-40deg);
+      animation-delay: 2.3s;
+    }
+
+    .leaf.right {
+      right: -18px;
+      top: 90px;
+      transform: rotate(40deg);
+      animation-delay: 2.6s;
+    }
+
+    @keyframes leafGrow {
+      to { opacity: 1; transform: scale(1.2) rotate(var(--rot)); }
     }
 
     .petal {
       position: absolute;
-      width: 40px;
+      width: 20px;
       height: 40px;
-      background: pink;
+      background: radial-gradient(circle at center, #ff4da6, #cc0066);
       border-radius: 50%;
-      opacity: 0.9;
+      opacity: 0;
+      animation: bloom 2s ease-out forwards;
     }
 
-    .petal:nth-child(1) { transform: rotate(0deg) translateY(-25px); background: #ffb6c1; }
-    .petal:nth-child(2) { transform: rotate(72deg) translateY(-25px); background: #ff69b4; }
-    .petal:nth-child(3) { transform: rotate(144deg) translateY(-25px); background: #ffb6c1; }
-    .petal:nth-child(4) { transform: rotate(216deg) translateY(-25px); background: #ff69b4; }
-    .petal:nth-child(5) { transform: rotate(288deg) translateY(-25px); background: #ffb6c1; }
+    .petal:nth-child(1) { transform: rotate(0deg) translateY(-20px); animation-delay: 4s; }
+    .petal:nth-child(2) { transform: rotate(72deg) translateY(-20px); animation-delay: 4.2s; }
+    .petal:nth-child(3) { transform: rotate(144deg) translateY(-20px); animation-delay: 4.4s; }
+    .petal:nth-child(4) { transform: rotate(216deg) translateY(-20px); animation-delay: 4.6s; }
+    .petal:nth-child(5) { transform: rotate(288deg) translateY(-20px); animation-delay: 4.8s; }
+
+    @keyframes bloom {
+      to { opacity: 1; transform: scale(1.2) rotate(var(--rot)) translateY(-25px); }
+    }
 
     .center {
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background: yellow;
+      width: 16px;
+      height: 16px;
+      background: radial-gradient(circle at center, #ffff66, #cc9900);
       border-radius: 50%;
-      left: 10px;
-      top: 10px;
-      box-shadow: 0 0 10px yellow;
-    }
-
-    .message {
-      position: absolute;
-      top: 15%;
-      text-align: center;
-      width: 100%;
-      font-size: 1.8em;
-      color: #e75480;
       opacity: 0;
-      animation: textFade 3s ease forwards;
-      animation-delay: 4s;
+      animation: showCenter 1s 5s forwards;
     }
 
-    @keyframes textFade {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
+    @keyframes showCenter {
+      to { opacity: 1; }
     }
 
-    .hearts {
+    .text {
       position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 30px;
-      color: #ff69b4;
-      animation: floatHearts 10s linear infinite;
+      bottom: 15%;
+      color: #ff66b2;
+      font-size: 2rem;
+      text-shadow: 0 0 20px #ff66b2;
+      opacity: 0;
+      animation: showText 3s 6s ease-out forwards;
     }
 
-    @keyframes floatHearts {
-      0% { transform: translate(-50%, 0) scale(1); opacity: 1; }
-      100% { transform: translate(-50%, -500px) scale(0.5); opacity: 0; }
+    @keyframes showText {
+      to { opacity: 1; transform: translateY(-10px); }
     }
   </style>
 </head>
 <body>
-  <div class="message">💐 Chúc Bùi Thị Cẩm Nhung một ngày 20/10 thật xinh đẹp, hạnh phúc và rực rỡ như những bông hoa này 💕</div>
-  
-  <div class="ground">
-    <div class="stem"></div>
-    <div class="leaf left"></div>
-    <div class="leaf right"></div>
-    <div class="flower">
-      <div class="petal"></div>
-      <div class="petal"></div>
-      <div class="petal"></div>
-      <div class="petal"></div>
-      <div class="petal"></div>
-      <div class="center"></div>
-    </div>
-  </div>
+  <div class="text">💐 Chúc mừng Nhung 20/10 vui vẻ 💐</div>
 
-  <div class="hearts">❤️💖💗💓💞💘</div>
+  <script>
+    function createFlower(xPos, delay) {
+      const flower = document.createElement("div");
+      flower.className = "flower";
+      flower.style.left = xPos + "px";
+      flower.style.animationDelay = delay + "s";
+
+      const stem = document.createElement("div");
+      stem.className = "stem";
+      flower.appendChild(stem);
+
+      const leaf1 = document.createElement("div");
+      leaf1.className = "leaf left";
+      stem.appendChild(leaf1);
+
+      const leaf2 = document.createElement("div");
+      leaf2.className = "leaf right";
+      stem.appendChild(leaf2);
+
+      const flowerTop = document.createElement("div");
+      flowerTop.className = "flower-top";
+      flowerTop.style.position = "absolute";
+      flowerTop.style.bottom = "150px";
+      flowerTop.style.left = "50%";
+      flowerTop.style.transform = "translateX(-50%)";
+
+      for (let i = 0; i < 5; i++) {
+        const petal = document.createElement("div");
+        petal.className = "petal";
+        flowerTop.appendChild(petal);
+      }
+
+      const center = document.createElement("div");
+      center.className = "center";
+      flowerTop.appendChild(center);
+
+      flower.appendChild(flowerTop);
+      document.body.appendChild(flower);
+    }
+
+    // Tạo nhiều hoa mọc ngẫu nhiên
+    for (let i = 0; i < 8; i++) {
+      const x = Math.random() * window.innerWidth;
+      const d = Math.random() * 3;
+      createFlower(x, d);
+    }
+  </script>
 </body>
 </html>
