@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>20/10 - Tặng Bùi Thị Cẩm Nhung 🌸</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(to top, #d4f1f4, #fff);
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .ground {
+      position: relative;
+      width: 100%;
+      height: 40vh;
+      background: linear-gradient(to top, #5bb75b, #9be47c);
+      overflow: hidden;
+    }
+
+    .stem {
+      position: absolute;
+      bottom: 0;
+      width: 4px;
+      height: 0;
+      background: #2b7a0b;
+      left: 50%;
+      animation: grow 3s ease-out forwards;
+    }
+
+    @keyframes grow {
+      to { height: 200px; }
+    }
+
+    .leaf {
+      position: absolute;
+      width: 30px;
+      height: 15px;
+      background: #3cb043;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0);
+      animation: leafGrow 2s ease-out forwards;
+    }
+
+    @keyframes leafGrow {
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(15deg);
+      }
+    }
+
+    .leaf.left {
+      left: calc(50% - 35px);
+      bottom: 100px;
+      transform-origin: right center;
+      animation-delay: 2.5s;
+    }
+
+    .leaf.right {
+      left: 50%;
+      bottom: 130px;
+      transform-origin: left center;
+      animation-delay: 2.7s;
+    }
+
+    .flower {
+      position: absolute;
+      left: 50%;
+      bottom: 200px;
+      transform: translateX(-50%) scale(0);
+      animation: bloom 2s ease-out forwards;
+      animation-delay: 3s;
+    }
+
+    @keyframes bloom {
+      to {
+        transform: translateX(-50%) scale(1);
+      }
+    }
+
+    .petal {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: pink;
+      border-radius: 50%;
+      opacity: 0.9;
+    }
+
+    .petal:nth-child(1) { transform: rotate(0deg) translateY(-25px); background: #ffb6c1; }
+    .petal:nth-child(2) { transform: rotate(72deg) translateY(-25px); background: #ff69b4; }
+    .petal:nth-child(3) { transform: rotate(144deg) translateY(-25px); background: #ffb6c1; }
+    .petal:nth-child(4) { transform: rotate(216deg) translateY(-25px); background: #ff69b4; }
+    .petal:nth-child(5) { transform: rotate(288deg) translateY(-25px); background: #ffb6c1; }
+
+    .center {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: yellow;
+      border-radius: 50%;
+      left: 10px;
+      top: 10px;
+      box-shadow: 0 0 10px yellow;
+    }
+
+    .message {
+      position: absolute;
+      top: 15%;
+      text-align: center;
+      width: 100%;
+      font-size: 1.8em;
+      color: #e75480;
+      opacity: 0;
+      animation: textFade 3s ease forwards;
+      animation-delay: 4s;
+    }
+
+    @keyframes textFade {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .hearts {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 30px;
+      color: #ff69b4;
+      animation: floatHearts 10s linear infinite;
+    }
+
+    @keyframes floatHearts {
+      0% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -500px) scale(0.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="message">💐 Chúc Bùi Thị Cẩm Nhung một ngày 20/10 thật xinh đẹp, hạnh phúc và rực rỡ như những bông hoa này 💕</div>
+  
+  <div class="ground">
+    <div class="stem"></div>
+    <div class="leaf left"></div>
+    <div class="leaf right"></div>
+    <div class="flower">
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="center"></div>
+    </div>
+  </div>
+
+  <div class="hearts">❤️💖💗💓💞💘</div>
+</body>
+</html>
