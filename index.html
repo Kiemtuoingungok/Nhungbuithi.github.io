@@ -1,173 +1,300 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>20/10 - Bùi Thị Cẩm Nhung 💕</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>20/10 — Bùi Thị Cẩm Nhung 💕</title>
 <style>
-  body {
-    margin: 0;
-    overflow: hidden;
-    background: black;
-    color: pink;
-    font-family: 'Segoe UI', sans-serif;
+  :root {
+    --flower-zone: 55vh;
+    --photo-size: 220px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:#000;overflow:hidden;font-family:Inter, "Segoe UI", Roboto, sans-serif;color:#fff}
+
+  /* ---------- chữ always on top ---------- */
+  .top-message {
+    position:fixed;
+    top:4%;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:9999;
+    color:#ffb6e6;
+    font-size:clamp(16px,2.6vw,28px);
+    text-align:center;
+    pointer-events:none;
+    text-shadow:0 6px 30px rgba(255,86,152,0.12);
   }
 
-  /* Cây hoa mọc dần lên */
-  .flower {
-    position: absolute;
-    bottom: 0;
-    width: 4px;
-    height: 0;
-    background: green;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: growStem 4s ease-out forwards;
+  /* ---------- vùng hoa (dưới màn hình) ---------- */
+  .flowers-area{
+    position:fixed; left:0; right:0; bottom:0;
+    height:var(--flower-zone);
+    pointer-events:none;
+    z-index:10;
+  }
+  .flower{
+    position:absolute; bottom:0; transform:translateX(-50%);
+    pointer-events:none;
+  }
+  .stem{
+    width:4px; height:0; background: linear-gradient(to top,#063b0b,#1fb42b);
+    border-radius:3px; transform-origin:bottom center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.6);
+  }
+  @keyframes stemGrow{0%{height:0} 100%{height:var(--stem-final)}}
+  .leaf{
+    position:absolute; width:28px; height:14px; border-radius:50%;
+    background:linear-gradient(180deg,#2ec24f,#13701e); opacity:0; transform-origin:center;
+  }
+  .leaf.left{ left:-22px; transform:rotate(-45deg); }
+  .leaf.right{ right:-22px; transform:rotate(45deg); }
+  @keyframes leafGrow{0%{opacity:0;transform:scale(.6)} 100%{opacity:1;transform:scale(1)}}
+
+  .flower-top{
+    position:absolute; left:50%; transform:translateX(-50%); pointer-events:none;
+    width:68px; height:68px;
+  }
+  .petal{
+    position:absolute; width:22px; height:40px; border-radius:50% 50% 40% 40%;
+    background: radial-gradient(circle at 30% 30%, #ff94bf, #c6005f 75%); opacity:0;
+    left:50%; top:50%; transform-origin:center bottom;
+  }
+  .petal.p1{ transform:rotate(0deg) translate(-50%,-20px) }
+  .petal.p2{ transform:rotate(72deg) translate(-50%,-20px) }
+  .petal.p3{ transform:rotate(144deg) translate(-50%,-20px) }
+  .petal.p4{ transform:rotate(216deg) translate(-50%,-20px) }
+  .petal.p5{ transform:rotate(288deg) translate(-50%,-20px) }
+  @keyframes petalBloom{0%{opacity:0;transform:translateY(8px) scale(.6)}70%{opacity:1;transform:translateY(-6px) scale(1.05)}100%{opacity:1;transform:translateY(-12px) scale(1)}}
+
+  .center {
+    position:absolute; width:18px; height:18px; left:50%; top:50%; transform:translate(-50%,-50%);
+    background: radial-gradient(circle at 30% 30%, #fff88a,#f7a800); border-radius:50%; opacity:0;
+    box-shadow:0 0 18px rgba(247,168,0,0.12);
   }
 
-  .leaf, .bloom {
-    position: absolute;
-    opacity: 0;
+  /* ---------- ảnh giữa ---------- */
+  .photo-wrap{
+    position:fixed; left:50%; top:50%; transform:translate(-50%,-50%) scale(0);
+    z-index:60; width:var(--photo-size); height:var(--photo-size); border-radius:999px;
+    overflow:hidden; box-shadow:0 20px 60px rgba(255, 120, 180,0.12);
+    border:6px solid rgba(255,255,255,0.03); background:#111;
+  }
+  .photo-wrap img{ width:100%; height:100%; object-fit:cover; display:block; transform-origin:center center; }
+
+  /* animation photo in and spin */
+  .photo-in { animation: photoIn 900ms cubic-bezier(.2,.9,.3,1) forwards; }
+  @keyframes photoIn {
+    0%{ transform:translate(-50%,-50%) scale(0) rotate(0); opacity:0; }
+    80%{ transform:translate(-50%,-50%) scale(1.18) rotate(160deg); opacity:1; }
+    100%{ transform:translate(-50%,-50%) scale(1) rotate(360deg); opacity:1; }
+  }
+  .photo-spin { animation: photoSpin 12s linear infinite; }
+  @keyframes photoSpin { to{ transform: rotate(360deg); } }
+
+  /* ---------- text xuất hiện sau 5s kể từ ảnh ---------- */
+  .big-text{
+    position:fixed; left:50%; top:50%; transform:translate(-50%,-50%) scale(0) rotate(0);
+    color:#ffb6e6; font-size:clamp(20px,3vw,40px); text-align:center; z-index:80;
+    text-shadow:0 8px 40px rgba(255,86,152,0.14);
+    pointer-events:none;
+  }
+  @keyframes textShow {
+    0%{ opacity:0; transform:translate(-50%,-50%) scale(.2) rotate(-180deg) }
+    60%{ opacity:1; transform:translate(-50%,-50%) scale(1.2) rotate(360deg) }
+    100%{ opacity:1; transform:translate(-50%,-50%) scale(1) rotate(0deg) }
   }
 
-  .leaf {
-    width: 10px;
-    height: 20px;
-    background: linear-gradient(to right, #006400, #00ff7f);
-    border-radius: 50%;
-    transform-origin: bottom center;
-    animation: growLeaf 2s ease-out forwards;
+  /* ---------- rơi: tuyết & cánh đào ---------- */
+  .falling {
+    position:fixed; top:-10px; pointer-events:none; z-index:70;
+    will-change: transform, opacity;
+  }
+  .snow{
+    width:8px; height:8px; background: #fff; border-radius:50%; opacity:0.9;
+    filter: drop-shadow(0 2px 6px rgba(255,255,255,0.06));
+  }
+  .petal-f{
+    width:18px; height:12px; background: radial-gradient(circle at 30% 30%, #ffd3e3, #ff72b0);
+    border-radius: 50% 50% 40% 40%; opacity:0.9; transform-origin:center;
   }
 
-  .bloom {
-    width: 20px;
-    height: 20px;
-    background: radial-gradient(circle, pink, deeppink);
-    border-radius: 50%;
-    transform-origin: center;
-    animation: bloom 2s ease-out forwards;
+  /* small overlay to enable sound */
+  .sound-overlay {
+    position:fixed; left:12px; bottom:12px; z-index:99999;
+    background:rgba(255,255,255,0.04); color:#fff; padding:8px 12px; border-radius:999px;
+    backdrop-filter:blur(6px); cursor:pointer; font-size:14px;
   }
-
-  @keyframes growStem {
-    from {height: 0;}
-    to {height: 250px;}
-  }
-
-  @keyframes growLeaf {
-    0% {opacity: 0; transform: scale(0) rotate(0deg);}
-    100% {opacity: 1; transform: scale(1) rotate(45deg);}
-  }
-
-  @keyframes bloom {
-    0% {opacity: 0; transform: scale(0);}
-    100% {opacity: 1; transform: scale(1.2);}
-  }
-
-  /* Ảnh chính */
-  .main-photo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    border-radius: 20px;
-    box-shadow: 0 0 40px rgba(255, 182, 193, 0.8);
-    animation: photoAppear 3s ease-out forwards 4s, spinLoop 12s linear infinite 7s;
-    width: 200px;
-  }
-
-  @keyframes photoAppear {
-    0% {transform: translate(-50%, -50%) scale(0); opacity: 0;}
-    100% {transform: translate(-50%, -50%) scale(1.1); opacity: 1;}
-  }
-
-  @keyframes spinLoop {
-    0% {transform: translate(-50%, -50%) rotate(0deg);}
-    100% {transform: translate(-50%, -50%) rotate(360deg);}
-  }
-
-  /* Chữ chúc mừng */
-  .text {
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    font-size: 28px;
-    color: pink;
-    text-shadow: 0 0 20px hotpink, 0 0 40px deeppink;
-    animation: showText 3s ease-out forwards 7s;
-  }
-
-  @keyframes showText {
-    0% {opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(0deg);}
-    100% {opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(360deg);}
-  }
-
-  /* Hoa đào & tuyết */
-  .petal {
-    position: fixed;
-    top: 0;
-    background: pink;
-    border-radius: 50%;
-    opacity: 0.8;
-    pointer-events: none;
-    animation: fall linear infinite;
-  }
-
-  @keyframes fall {
-    0% {transform: translateY(-10px) rotate(0deg); opacity: 1;}
-    100% {transform: translateY(100vh) rotate(360deg); opacity: 0;}
-  }
+  .sound-overlay.hidden{ display:none; }
 </style>
 </head>
 <body>
+  <div class="top-message">Tặng: <strong>Bùi Thị Cẩm Nhung</strong></div>
 
-<div class="flower" id="flower"></div>
-<img src="Screenshot_20251020_205453.jpg" class="main-photo" id="photo">
-<div class="text">Bùi Thị Cẩm Nhung 20/10 vui vẻ 💕</div>
+  <div class="flowers-area" id="flowersArea"></div>
 
-<audio id="pop" src="https://cdn.pixabay.com/download/audio/2021/09/07/audio_6e5c726a64.mp3?filename=pop-94319.mp3"></audio>
+  <!-- photo wrapper dùng raw URL từ repo (raw.githubusercontent) -->
+  <div class="photo-wrap" id="photoWrap" aria-hidden="true">
+    <img id="mainPhoto" src="https://raw.githubusercontent.com/Kiemtuoingngok/Nhungbuithi.github.io/main/Screenshot_20251020_205453_TikTok.jpg" alt="Nhung">
+  </div>
+
+  <div class="big-text" id="bigText" aria-hidden="true">💖 Bùi Thị Cẩm Nhung 20/10 vui vẻ 💕</div>
+
+  <!-- overlay nhắc bấm để bật âm thanh (bấm 1 lần là được) -->
+  <div class="sound-overlay" id="soundOverlay">Tap để bật tiếng (cho trải nghiệm đầy đủ)</div>
+
+  <audio id="popSound" src="https://cdn.pixabay.com/download/audio/2021/09/07/audio_6e5c726a64.mp3?filename=pop-94319.mp3"></audio>
 
 <script>
-  // Cây hoa mọc dần
-  const flower = document.getElementById('flower');
-  setTimeout(() => {
-    for (let i = 0; i < 4; i++) {
-      const leaf = document.createElement('div');
-      leaf.className = 'leaf';
-      leaf.style.left = (50 + (i % 2 === 0 ? -15 : 15)) + '%';
-      leaf.style.bottom = (100 + i * 30) + 'px';
-      leaf.style.animationDelay = (i + 2) + 's';
-      flower.appendChild(leaf);
-    }
-    const bloom = document.createElement('div');
-    bloom.className = 'bloom';
-    bloom.style.left = 'calc(50% - 10px)';
-    bloom.style.bottom = '250px';
-    bloom.style.animationDelay = '3s';
-    flower.appendChild(bloom);
-  }, 1000);
+/* ---------- tạo nhiều cây hoa rải đều (không chồng) ---------- */
+const area = document.getElementById('flowersArea');
+const count = 9;
+for(let i=0;i<count;i++){
+  const percent = (i+1)/(count+1) * 100; // rải đều
+  createFlower(percent, 0.2 + Math.random()*1.4);
+}
 
-  // Hoa đào & tuyết rơi
-  function createPetal() {
-    const petal = document.createElement('div');
-    petal.classList.add('petal');
-    const size = Math.random() * 10 + 5 + 'px';
-    petal.style.width = size;
-    petal.style.height = size;
-    petal.style.left = Math.random() * 100 + 'vw';
-    petal.style.background = Math.random() > 0.5 ? 'pink' : 'white';
-    petal.style.animationDuration = Math.random() * 5 + 5 + 's';
-    document.body.appendChild(petal);
-    setTimeout(() => petal.remove(), 10000);
+function createFlower(percentLeft, delay){
+  const wrapper = document.createElement('div');
+  wrapper.className = 'flower';
+  wrapper.style.left = percentLeft + '%';
+  // random stem height
+  const minStem = 90, maxStem = Math.min(220, Math.round(window.innerHeight * 0.45));
+  const stemH = Math.round(minStem + Math.random()*(maxStem - minStem));
+  wrapper.style.setProperty('--stem-final', stemH + 'px');
+
+  // stem
+  const stem = document.createElement('div');
+  stem.className = 'stem';
+  stem.style.height = '0px';
+  stem.style.animation = `stemGrow 2.4s cubic-bezier(.2,.9,.3,1) ${delay}s forwards`;
+  stem.style.setProperty('--stem-final', stemH + 'px');
+  stem.style.setProperty('animation-fill-mode','forwards');
+  // use CSS variable inside keyframe via inline style is fine because we set height at 100% of animation by JS later
+
+  // after animation starts, set final height for keyframe reference:
+  stem.style.setProperty('--stem-final', stemH + 'px');
+
+  // leaves
+  const leafL = document.createElement('div');
+  leafL.className = 'leaf left';
+  leafL.style.top = (stemH*0.45) + 'px';
+  leafL.style.animation = `leafGrow 0.9s ease-out ${delay + 1.1}s forwards`;
+
+  const leafR = document.createElement('div');
+  leafR.className = 'leaf right';
+  leafR.style.top = (stemH*0.65) + 'px';
+  leafR.style.animation = `leafGrow 0.9s ease-out ${delay + 1.4}s forwards`;
+
+  // flower top
+  const top = document.createElement('div');
+  top.className = 'flower-top';
+  top.style.bottom = (stemH + 6) + 'px';
+
+  for(let p=1;p<=5;p++){
+    const pet = document.createElement('div');
+    pet.className = 'petal p'+p;
+    const petalDelay = delay + 1.8 + p*0.12;
+    pet.style.animation = `petalBloom 0.9s ease-out ${petalDelay}s forwards`;
+    top.appendChild(pet);
   }
-  setInterval(createPetal, 200);
+  const center = document.createElement('div');
+  center.className = 'center';
+  center.style.animation = `centerShow 0.6s ${delay + 2.4}s forwards`;
+  top.appendChild(center);
 
-  // Âm thanh "bụp" khi ảnh hiện (sau lần chạm đầu)
-  const photo = document.getElementById('photo');
-  const sound = document.getElementById('pop');
-  document.body.addEventListener('click', () => {
-    setTimeout(() => sound.play(), 4000);
-  }, { once: true });
+  wrapper.appendChild(stem);
+  wrapper.appendChild(leafL);
+  wrapper.appendChild(leafR);
+  wrapper.appendChild(top);
+  area.appendChild(wrapper);
+}
+
+/* ---------- photo appear + spin + text ---------- */
+const photoWrap = document.getElementById('photoWrap');
+const photo = document.getElementById('mainPhoto');
+const bigText = document.getElementById('bigText');
+const pop = document.getElementById('popSound');
+const overlay = document.getElementById('soundOverlay');
+
+let userInteracted = false;
+overlay.addEventListener('click', () => {
+  userInteracted = true;
+  overlay.classList.add('hidden');
+  overlay.style.display = 'none';
+  // try to unlock audio
+  pop.play().catch(()=>{/* ignored */});
+}, { once: true });
+
+document.addEventListener('pointerdown', () => {
+  userInteracted = true;
+  overlay.classList.add('hidden');
+}, { once: true });
+
+// show photo after flowers have started - set timing so it's visible after stems grow
+const PHOTO_APPEAR_DELAY = 3500; // ms
+setTimeout(() => {
+  // add class to animate photo in
+  photoWrap.classList.add('photo-in');
+  // after photo in animation ends, start continuous spin
+  setTimeout(()=> {
+    photoWrap.classList.add('photo-spin');
+    // play pop sound exactly when photo finishes appearing if user allowed
+    if (userInteracted) {
+      pop.currentTime = 0;
+      pop.play().catch(()=>{/* no-op if blocked */});
+    } else {
+      // keep overlay visible so user can enable sound anytime
+      overlay.classList.remove('hidden');
+      overlay.style.display = 'block';
+    }
+  }, 900); // matches photoIn duration
+
+  // schedule text show 5000ms after photo appears
+  setTimeout(()=> {
+    bigText.style.animation = 'textShow 1.2s cubic-bezier(.2,.9,.3,1) forwards';
+    // while text is animating, we rotate text for effect then stop (CSS handles)
+    // after text animation completes, pause photo spin (so text readable)
+    setTimeout(()=> {
+      photoWrap.classList.remove('photo-spin'); // stop infinite spin
+      // apply a slight final rotation so photo looks natural
+      photoWrap.style.transform = 'translate(-50%,-50%) rotate(8deg)';
+    }, 1500);
+  }, 5000 + 900); // 5s after photo start + allow photoIn time
+}, PHOTO_APPEAR_DELAY);
+
+/* ---------- falling snow & petals ---------- */
+function spawnFall(kind, count, speedMin, speedMax) {
+  for(let i=0;i<count;i++){
+    const el = document.createElement('div');
+    el.className = 'falling ' + (kind==='snow'?'snow':'petal-f');
+    const left = Math.random()*100;
+    el.style.left = left + 'vw';
+    const dur = (speedMin + Math.random()*(speedMax-speedMin));
+    el.style.transition = `transform ${dur}s linear, opacity ${dur}s linear`;
+    document.body.appendChild(el);
+
+    // animate using requestAnimationFrame step to give natural sway
+    const startX = left;
+    let t = 0;
+    const total = dur * 1000;
+    function step(ts){
+      t += 16 + Math.random()*20;
+      const p = Math.min(1, t/total);
+      const y = p * (window.innerHeight + 80);
+      const sway = Math.sin(p * Math.PI * (1 + Math.random()*2)) * 40;
+      el.style.transform = `translate(${sway}px, ${y}px) rotate(${p*720}deg)`;
+      el.style.opacity = String(1 - p);
+      if (p < 1) requestAnimationFrame(step);
+      else el.remove();
+    }
+    requestAnimationFrame(step);
+  }
+}
+// continuous spawn intervals
+setInterval(()=> spawnFall('snow', 3, 6, 10), 1200);
+setInterval(()=> spawnFall('petal', 2, 6, 12), 900);
+
 </script>
 </body>
 </html>
